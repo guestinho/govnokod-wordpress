@@ -515,8 +515,8 @@ div.entry-comments ul .hcomment .entry-comment-wrapper:hover
 	background-color: #F6F6F6;
 }
 
-div.entry-comments ul .hcomment .entry-comment-wrapper.highlight,
-div.entry-comments ul .hcomment.new-comment .entry-comment-wrapper
+div.entry-comments ul .hcomment:target > .entry-comment-wrapper,
+div.entry-comments ul .hcomment.new-comment > .entry-comment-wrapper
 {
 	background-color: #FFF9DF;
 }
@@ -681,7 +681,7 @@ time
 
 div.entry-comments ul .hcomment .entry-comment
 {
-	margin: -0.7em 0 0 2.6em;
+	margin: -0.5em 0 0 2.6em;
 	padding: 0;
 
 	color: #333;

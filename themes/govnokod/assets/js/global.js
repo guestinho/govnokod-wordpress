@@ -1,3 +1,5 @@
+window.$ = jQuery;
+
 jQuery(function ($) {
 	highlight($('body'));
 
@@ -175,4 +177,19 @@ jQuery(function ($) {
 			});
 		});
 	}
+
+});
+
+jQuery('body').on('click', '.all-comments .add-ignore a', function (event) {
+	event.preventDefault();
+	var href = event.currentTarget.href;
+	$.get(href);
+	var username = $(event.currentTarget).closest('.entry-info').find('.comment-author').text();
+	var removeCommenrs = $('.all-comments .comment-author').filter(function (i, el) {
+		return $(el).text() === username;
+	}).parents('.hentry');
+
+	removeCommenrs.fadeOut(400, function () {
+		removeCommenrs.remove();
+	});
 });

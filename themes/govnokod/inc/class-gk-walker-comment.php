@@ -49,7 +49,7 @@ function gk_comment_header_template($comment, $args) {
     <strong class="comment-author vcard entry-author"><?php printf('<b class="fn">%s</b>', $author_link); ?></strong>
 
     <time datetime="<?php comment_time('c'); ?>">
-        <?php echo human_time_diff(strtotime($comment->comment_date)); ?> назад
+        <?php printf(__('%s ago'), human_time_diff(strtotime($comment->comment_date))); ?>
     </time>
 
     <a href="<?php echo esc_url(get_comment_link($comment, $args)); ?>">#</a>

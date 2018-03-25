@@ -52,10 +52,12 @@ class VotingAjaxController extends AjaxControllerBase {
         $html_result = '';
 
         if ($comment) {
-            if ($vote > 0) {
-                $gk_vote->voteCommentUp($comment->comment_ID, $user->ID);
-            } else if ($vote < 0) {
-                $gk_vote->voteCommentDown($comment->comment_ID, $user->ID);
+            if ($comment->comment_author !== $user->user_login) { // не знаю что здесь проверять, но вроде user_login подходит
+                if ($vote > 0) {
+                    $gk_vote->voteCommentUp($comment->comment_ID, $user->ID);
+                } else if ($vote < 0) {
+                    $gk_vote->voteCommentDown($comment->comment_ID, $user->ID);
+                }
             }
             ob_start();
             get_template_part('template-parts/voting/comment-votes');
@@ -63,10 +65,12 @@ class VotingAjaxController extends AjaxControllerBase {
         }
 
         if ($post) {
-            if ($vote > 0) {
-                $gk_vote->votePostUp($post->ID, $user->ID);
-            } else if ($vote < 0) {
-                $gk_vote->votePostDown($post->ID, $user->ID);
+            if ((int) $post->post_author !== $user->ID) {
+                if ($vote > 0) {
+                    $gk_vote->votePostUp($post->ID, $user->ID);
+                } else if ($vote < 0) {
+                    $gk_vote->votePostDown($post->ID, $user->ID);
+                }
             }
             ob_start();
             get_template_part('template-parts/voting/post-votes');

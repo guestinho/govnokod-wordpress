@@ -24,11 +24,13 @@ require_once dirname(__FILE__) . '/includes/settings.php';
 require_once dirname(__FILE__) . '/controllers/class-unread-comments-controller.php';
 require_once dirname(__FILE__) . '/controllers/class-voting-controller.php';
 require_once dirname(__FILE__) . '/controllers/class-post-title-controller.php';
+require_once dirname(__FILE__) . '/controllers/class-ignore-list-controller.php';
 require_once dirname(__FILE__) . '/ajax-controllers/class-ajax-controller-base.php';
 require_once dirname(__FILE__) . '/ajax-controllers/class-add-comment-ajax-controller.php';
 require_once dirname(__FILE__) . '/ajax-controllers/class-voting-ajax-controller.php';
 require_once dirname(__FILE__) . '/ajax-controllers/class-comments-ajax-controller.php';
 require_once dirname(__FILE__) . '/ajax-controllers/class-all-comments-ajax-controller.php';
+require_once dirname(__FILE__) . '/ajax-controllers/class-ignore-list-ajax-controller.php';
 
 require_once dirname(__FILE__) . '/controllers/synchronization/class-sync-post-controller.php';
 require_once dirname(__FILE__) . '/controllers/synchronization/class-sync-stock-controller.php';

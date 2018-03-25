@@ -7,6 +7,15 @@
                 <div class="entry-comment-wrapper">
                     <p class="entry-info">
                         <?php gk_comment_header_template($comment, array('avatar_size' => 28)); ?>
+
+                        <?php if (is_user_logged_in()): ?>
+                            <span class="add-ignore" style="position:absolute;right:2em;">
+                                <a href="<?php echo AjaxControllerBase::url('add-ignore', array('username' => $comment->comment_author)); ?>"
+                                   title="Кликните, чтобы скрыть комментарии этого пользователя"
+                                   style="color:red;font-size: 0.8rem;">#скрытьник
+                                </a>
+                            </span>
+                        <?php endif; ?>
                     </p>
 
                     <div class="entry-comment"><?php comment_text($comment); ?></div>

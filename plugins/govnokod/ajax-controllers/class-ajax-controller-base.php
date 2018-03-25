@@ -37,8 +37,9 @@ class AjaxControllerBase {
         return add_query_arg(array('action' => $action), admin_url('admin-ajax.php'));
     }
 
-    public static function url($action) {
-        return add_query_arg(array('_ajax_nonce' => wp_create_nonce('gk-action')), self::getActionUrl($action));
+    public static function url($action, $args = array()) {
+        $args['_ajax_nonce'] = wp_create_nonce('gk-action');
+        return add_query_arg($args, self::getActionUrl($action));
     }
 
     public function error($message) {

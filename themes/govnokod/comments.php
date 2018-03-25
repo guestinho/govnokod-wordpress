@@ -13,10 +13,10 @@ if ( post_password_required() ) {
 
 	<?php
 	$comments_number = get_comments_number();
-	if ( have_comments() ) : ?>
+	if (have_comments()) : ?>
 		<h3 class="comments-title">
 			Комментарии <span class="enrty-comments-count">(<?php echo $comments_number; ?>)</span>
-			<span class="rss"><a href="#" rel="alternative">RSS</a></span>
+			<span class="rss"><?php post_comments_feed_link('RSS'); ?></span>
 		</h3>
 
 		<ul class="comment-list">
