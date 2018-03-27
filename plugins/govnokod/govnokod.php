@@ -34,6 +34,7 @@ require_once dirname(__FILE__) . '/ajax-controllers/class-ignore-list-ajax-contr
 
 require_once dirname(__FILE__) . '/controllers/synchronization/class-sync-post-controller.php';
 require_once dirname(__FILE__) . '/controllers/synchronization/class-sync-stock-controller.php';
+require_once dirname(__FILE__) . '/controllers/synchronization/class-sync-main-controller.php';
 require_once dirname(__FILE__) . '/controllers/synchronization/class-sync-users-controller.php';
 require_once dirname(__FILE__) . '/controllers/synchronization/class-sync-posts-controller.php';
 require_once dirname(__FILE__) . '/controllers/synchronization/scheduling.php';

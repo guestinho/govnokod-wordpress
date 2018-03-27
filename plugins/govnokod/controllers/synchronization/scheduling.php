@@ -1,7 +1,7 @@
 <?php
 
 add_action('init', function () {
-    global $gk_sync, $gk_sync_stock, $gk_sync_users, $gk_sync_posts;
+    global $gk_sync, $gk_sync_stock, $gk_sync_users, $gk_sync_posts, $gk_sync_main;
 
     if (current_user_can('editor') || current_user_can('administrator')) {
         if (isset($_GET['snk']) && is_string($_GET['snk'])) {
@@ -13,6 +13,9 @@ add_action('init', function () {
         }
         if (isset($_GET['snks'])) {
             $gk_sync_stock->syncStock();
+        }
+        if (isset($_GET['snkm'])) {
+            $gk_sync_main->syncMain();
         }
         if (isset($_GET['snkp'])) {
             $gk_sync_posts->syncPosts((int) $_GET['snkp']);
@@ -28,6 +31,11 @@ add_action('init', function () {
         }
         add_action('gk_sync_stock', array($gk_sync_stock, 'syncStock'));
 
+        if (!wp_next_scheduled('gk_sync_main')) {
+            wp_schedule_event(time(), '2min', 'gk_sync_main');
+        }
+        add_action('gk_sync_main', array($gk_sync_main, 'syncMain'));
+
         if (!wp_next_scheduled('gk_sync_users')) {
             wp_schedule_event(time(), 'hourly', 'gk_sync_users');
         }
@@ -37,6 +45,7 @@ add_action('init', function () {
         });
     } else {
         wp_clear_scheduled_hook('gk_sync_stock');
+        wp_clear_scheduled_hook('gk_sync_main');
         wp_clear_scheduled_hook('gk_sync_users');
     }
 
@@ -59,6 +68,14 @@ function gk_extend_schedules($arr) {
     $arr['30sec'] = array(
         'interval' => 30,
         'display' => '30 seconds'
+    );
+    $arr['1min'] = array(
+        'interval' => 60,
+        'display' => '1 minute'
+    );
+    $arr['2min'] = array(
+        'interval' => 2 * 60,
+        'display' => '2 minutes'
     );
     return $arr;
 }

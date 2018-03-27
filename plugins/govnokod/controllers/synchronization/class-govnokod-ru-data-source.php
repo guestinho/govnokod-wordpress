@@ -50,13 +50,30 @@ class GovnokodRuDataSource implements IGovnokodDataSource {
         $doc = str_get_html($html, $lowercase=true, $forceTagsClosed=true, $target_charset=DEFAULT_TARGET_CHARSET, $stripRN=false, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT);
 
         $hentry_node = $doc->find('.hentry', 0);
+        $post = $this->_parsePost($hentry_node);
+        if ($post) {
+            $post->has_comments = !empty($post->comments);
+        }
+        return $post;
+    }
+
+    /**
+     * @param $hentry_node
+     * @return GovnokodRuPostModel|null
+     */
+    protected function _parsePost($hentry_node) {
         if (!$hentry_node) {
             return null;
         }
 
+        $url_node = $hentry_node->find('h2 .entry-title', 0);
+        if (!$url_node) {
+            return null;
+        }
+
         $post = new GovnokodRuPostModel();
-        $post->id = $post_id;
-        $post->url = $this->_postUrl($post_id);
+        $post->url = $url_node->href;
+        $post->id = (int) str_replace($this->baseUrl . '/', '', $post->url);
 
         $language_node = $hentry_node->find('[rel=chapter]', 0);
         if (!$language_node) {

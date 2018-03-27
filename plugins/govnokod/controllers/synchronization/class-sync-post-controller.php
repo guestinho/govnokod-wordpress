@@ -56,6 +56,11 @@ class SyncPostController {
             return false;
         }
 
+        if (empty($gk_post->code) && empty($gk_post->description)) {
+            // Потому что полностью пустые посты не вставляются
+            $gk_post->description = ' ';
+        }
+
         $post_name = GK_LEGACY_POST_NAME_PREFIX . $post_id;
 
         $post = get_page_by_path($post_name, OBJECT, 'post');
@@ -63,7 +68,7 @@ class SyncPostController {
         if ($post === null) {
             $new_post_id = wp_insert_post(array(
                 'post_name' => $post_name,
-                'post_content' => '1',
+                'post_content' => 'generating...',
                 'post_status' => 'publish',
             ));
             if (is_wp_error($new_post_id)) {

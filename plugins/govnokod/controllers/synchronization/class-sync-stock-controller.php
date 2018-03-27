@@ -45,20 +45,37 @@ class SyncStockController {
             return 0;
         }
 
-        $last_synced_comment_id = file_exists(__DIR__ . '/lock/last_synced_comment_id') ? (int) file_get_contents(__DIR__ . '/lock/last_synced_comment_id') : 0;
-        if ($gk_comments) {
-            file_put_contents(__DIR__ . '/lock/last_synced_comment_id', $gk_comments[0]->id);
-        }
-
         foreach ($gk_comments as $comment) {
-            if ($comment->id <= $last_synced_comment_id) {
-                break;
+            if ($this->_needSync($comment)) {
+                global $gk_sync;
+                $gk_sync->syncPost($comment->post_id);
+                $changed++;
             }
-            global $gk_sync;
-            $gk_sync->syncPost($comment->post_id);
-            $changed++;
         }
         return $changed;
+    }
+
+    private function _needSync($gk_comment) {
+        $post = get_page_by_path(GK_LEGACY_POST_NAME_PREFIX . $gk_comment->post_id, OBJECT, 'post');
+        if (!$post) {
+            return true;
+        }
+
+        $comment_time = strtotime($gk_comment->date_gmt);
+        $comment_end_time = strtotime("+6 minutes", $comment_time);
+
+        $last_sync = (int) get_post_meta($post->ID, 'gk_legacy_sync_time', true);
+
+        if ($comment_time >= $last_sync) {
+            // comment not exists in our database
+            return true;
+        }
+
+        if ($last_sync <= $comment_end_time && time() >= $comment_end_time) {
+            // comment exists in our database, but may be edited, and edit is disabled now
+            return true;
+        }
+        return false;
     }
 }
 

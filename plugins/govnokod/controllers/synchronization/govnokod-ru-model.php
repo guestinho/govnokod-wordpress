@@ -81,6 +81,11 @@ class GovnokodRuPostModel {
     public $author;
 
     /**
+     * @var bool
+     */
+    public $has_comments;
+
+    /**
      * @var GovnokodRuCommentModel
      */
     public $comments = array();
